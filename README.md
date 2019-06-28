@@ -6,7 +6,7 @@ authenticated, otherwise a response with status code 401 is returned.
 
 A JWT is valid if:
 
-- it is a well-formed
+- it is well-formed
 - any "nbf" claim has elapsed
 - any "exp" claim has not elapsed
 - has a "kid" claim in its header
