@@ -18,6 +18,30 @@ A JWT is valid if:
 Each JWT must specify a "kid" claim in the header.  This value is used to locate a key in the configured
 JWKS key set.  The JWT's signature is then verified with the key.  
 
+**The Spring Authentication Context**
+
+On successful authentication the `JWTAuthenticationManager` builds a 
+[`PreAuthenticatedAuthenticationToken`](https://docs.spring.io/spring-security/site/docs/4.2.12.RELEASE/apidocs/org/springframework/security/web/authentication/preauth/PreAuthenticatedAuthenticationToken.html)
+which is set in the current SecurityContext.
+
+The token is populated from the JWT as follows:
+
+- claim `sub` is set as the `principal`
+- claim `roles` (an array of strings) is set as the collection of `authorities`
+- the JWT itself is set as the `credentials`
+
+> If you want to use Spring's [method security](https://docs.spring.io/spring-security/site/docs/5.1.5.RELEASE/reference/htmlsingle/#ns-method-security)
+> then I recommend each string in your `roles` claim has the prefix `ROLE_`.
+>
+> Example
+> ```
+> {
+>    ...,
+>    "claims" : ["ROLE_AddUser", "ROLE_DeleteUser"],
+>    ...
+> }
+> ```
+
 ## Usage
 
 In your Spring application configure Spring Security as follows:
