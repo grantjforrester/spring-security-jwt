@@ -1,5 +1,5 @@
 # spring-security-jwt
-A lightweight module for Spring Security for request authentication by JSON Web Token (JWT).
+A lightweight module for Spring Security that provides HTTP request authentication by JSON Web Token (JWT).
 
 When configured all incoming requests to the Spring application are intercepted and must have a valid JWT to be 
 authenticated, otherwise a response with status code 401 is returned.
