@@ -37,7 +37,7 @@ The token is populated from the JWT as follows:
 > ```
 > {
 >    ...,
->    "claims" : ["ROLE_AddUser", "ROLE_DeleteUser"],
+>    "roles" : ["ROLE_AddUser", "ROLE_DeleteUser"],
 >    ...
 > }
 > ```
