@@ -1,4 +1,4 @@
-package com.github.grantjforrester.springsecurityjwt;
+package com.github.grantjforrester.spring.security.jwt;
 
 import org.springframework.security.authentication.AuthenticationManager;
 

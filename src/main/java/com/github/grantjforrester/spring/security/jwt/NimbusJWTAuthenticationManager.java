@@ -1,4 +1,4 @@
-package com.github.grantjforrester.springsecurityjwt;
+package com.github.grantjforrester.spring.security.jwt;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;

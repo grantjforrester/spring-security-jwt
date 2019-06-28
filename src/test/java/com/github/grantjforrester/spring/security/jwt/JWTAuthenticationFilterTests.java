@@ -1,4 +1,4 @@
-package com.github.grantjforrester.springsecurityjwt;
+package com.github.grantjforrester.spring.security.jwt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

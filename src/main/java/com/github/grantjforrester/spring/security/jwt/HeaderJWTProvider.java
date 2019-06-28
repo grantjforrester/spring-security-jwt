@@ -1,4 +1,4 @@
-package com.github.grantjforrester.springsecurityjwt;
+package com.github.grantjforrester.spring.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

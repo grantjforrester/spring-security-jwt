@@ -1,4 +1,4 @@
-package com.github.grantjforrester.springsecurityjwt;
+package com.github.grantjforrester.spring.security.jwt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,14 +12,14 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.EXPIRED_JWT;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_EC_SIG;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_HMAC_SIG;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_INVALID_SIG;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_NO_KID;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_RSA_SIG;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.JWT_WITH_UNKNOWN_KID;
-import static com.github.grantjforrester.springsecurityjwt.JWTTestUtils.MALFORMED_JWT;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.EXPIRED_JWT;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_EC_SIG;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_HMAC_SIG;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_INVALID_SIG;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_NO_KID;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_RSA_SIG;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_UNKNOWN_KID;
+import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.MALFORMED_JWT;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
 import static com.googlecode.catchexception.CatchException.catchException;
