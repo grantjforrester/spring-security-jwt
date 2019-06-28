@@ -1,6 +1,23 @@
 # spring-security-jwt
 A lightweight module for Spring Security for request authentication by JSON Web Token (JWT).
 
+When configured all incoming requests to the Spring application are intercepted and must have a valid JWT to be 
+authenticated, otherwise a response with status code 401 is returned.
+
+A JWT is valid if:
+
+- it is a well-formed
+- any "nbf" claim has elapsed
+- any "exp" claim has not elapsed
+- has a "kid" claim in its header
+- the key with the "kid" is present in the application's keyset
+- has the correct signature
+
+**Kids and Signature Checking**
+
+Each JWT must specify a "kid" claim in the header.  This value is used to locate a key in the configured
+JWKS key set.  The JWT's signature is then verified with the key.  
+
 ## Usage
 
 In your Spring application configure Spring Security as follows:
