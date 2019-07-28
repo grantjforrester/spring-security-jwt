@@ -1,4 +1,7 @@
-# spring-security-jwt ![Travis (.org)](https://img.shields.io/travis/grantjforrester/spring-security-jwt)
+# spring-security-jwt 
+![Travis (.org)](https://img.shields.io/travis/grantjforrester/spring-security-jwt)
+![Codecov](https://img.shields.io/codecov/c/github/grantjforrester/spring-security-jwt)
+
 A lightweight module for Spring Security that provides HTTP request authentication by JSON Web Token (JWT).
 
 When configured all incoming requests to the Spring application are intercepted and must have a valid JWT to be 
