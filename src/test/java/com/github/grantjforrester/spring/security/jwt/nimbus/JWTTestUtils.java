@@ -1,4 +1,4 @@
-package com.github.grantjforrester.spring.security.jwt;
+package com.github.grantjforrester.spring.security.jwt.nimbus;
 
 class JWTTestUtils {
 

@@ -1,4 +1,4 @@
-package com.github.grantjforrester.spring.security.jwt;
+package com.github.grantjforrester.spring.security.jwt.nimbus;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -16,22 +16,17 @@ import java.util.List;
 
 import static com.nimbusds.jose.jwk.JWKSet.load;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
-public class JWKSetManagerTests {
+public class KidClaimSelectorTests {
 
-    private JWKSetManager testee;
+    private KidClaimSelector testee;
 
     @BeforeEach
     public void setup() throws Exception {
         URL url = this.getClass().getResource("/testkeyset.jwks");
         File keySetFile = new File(url.toURI());
-        testee = new JWKSetManager(load(keySetFile));
+        testee = new KidClaimSelector(load(keySetFile));
     }
 
     @Test

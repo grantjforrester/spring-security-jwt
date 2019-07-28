@@ -1,4 +1,4 @@
-package com.github.grantjforrester.spring.security.jwt;
+package com.github.grantjforrester.spring.security.jwt.nimbus;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,14 +12,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.EXPIRED_JWT;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_EC_SIG;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_HMAC_SIG;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_INVALID_SIG;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_NO_KID;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_RSA_SIG;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.JWT_WITH_UNKNOWN_KID;
-import static com.github.grantjforrester.spring.security.jwt.JWTTestUtils.MALFORMED_JWT;
+import static com.github.grantjforrester.spring.security.jwt.nimbus.JWTTestUtils.*;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
 import static com.googlecode.catchexception.CatchException.catchException;
@@ -27,10 +20,7 @@ import static com.googlecode.catchexception.CatchException.caughtException;
 import static com.nimbusds.jose.jwk.JWKSet.load;
 import static java.util.Collections.emptySet;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 
 public class NimbusJWTAuthenticationManagerTests {
@@ -41,7 +31,7 @@ public class NimbusJWTAuthenticationManagerTests {
     public void setup() throws Exception {
         URL url = this.getClass().getResource("/testkeyset.jwks");
         File keySetFile = new File(url.toURI());
-        JWKSetManager keysetManager = new JWKSetManager(load(keySetFile));
+        KidClaimSelector keysetManager = new KidClaimSelector(load(keySetFile));
         testee = new NimbusJWTAuthenticationManager(keysetManager);
     }
 

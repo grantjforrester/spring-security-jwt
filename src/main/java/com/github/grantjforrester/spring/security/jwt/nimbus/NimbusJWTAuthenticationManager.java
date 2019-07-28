@@ -1,7 +1,9 @@
-package com.github.grantjforrester.spring.security.jwt;
+package com.github.grantjforrester.spring.security.jwt.nimbus;
 
+import com.github.grantjforrester.spring.security.jwt.JWTAuthenticationManager;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
+import com.nimbusds.jose.proc.JWSKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -40,12 +42,16 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
 
     private final DefaultJWTProcessor<SecurityContext> processor = new DefaultJWTProcessor<>();
 
-    public NimbusJWTAuthenticationManager(JWKSetManager keyManager) {
-        LOG.trace("Parameters: {}", keyManager);
-        if (keyManager == null) {
-            throw new NullPointerException("keyManager cannot be null");
+    /**
+     * Creates a new <code>NimbusJWTAuthenticationManager</code> with the given key selector.
+     * @param keySelector the key selector used to provide a key to verify each JWT.
+     */
+    public NimbusJWTAuthenticationManager(JWSKeySelector<SecurityContext> keySelector) {
+        LOG.trace("Parameters: {}", keySelector);
+        if (keySelector == null) {
+            throw new NullPointerException("keySelector cannot be null");
         }
-        processor.setJWSKeySelector(keyManager);
+        processor.setJWSKeySelector(keySelector);
         LOG.trace("Returning: none");
     }
 
@@ -58,7 +64,7 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
      */
     @Override
     public Optional<Object> getPrincipalFrom(String jwt) {
-        LOG.trace("Parameters: token={}", jwt);
+        LOG.trace("Parameters: {}", jwt);
         Optional<Object> principal = Optional.empty();
         Optional<String> subject = Optional.ofNullable(getSubject(jwt));
         if (!subject.isPresent())
@@ -78,7 +84,7 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        LOG.trace("Parameters: authentication={}", authentication);
+        LOG.trace("Parameters: {}", authentication);
         String token = (String) authentication.getCredentials();
         Collection<? extends GrantedAuthority> authorities = buildAuthorities(token);
         User principal = buildPrincipal(authentication.getName(), authorities);
@@ -91,12 +97,16 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
     }
 
     private User buildPrincipal(String name, Collection<? extends GrantedAuthority> authorities) {
-        return new User(name, "", authorities);
+        LOG.trace("Parameters: {}, {}", name, authorities);
+        User principal = new User(name, "", authorities);
+        LOG.trace("Returning: {}", principal);
+
+        return principal;
     }
 
     private Collection<? extends GrantedAuthority> buildAuthorities(String token) {
+        LOG.trace("Parameters: {}", token);
         JWTClaimsSet claims = verifyToken(token);
-        LOG.trace("Parameters: claims={}", claims);
         List<String> roles = getRolesFromJWT(claims);
         List<? extends GrantedAuthority> authorities = roles.stream().map(r -> new SimpleGrantedAuthority(r))
                 .collect(Collectors.toList());
@@ -106,7 +116,7 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
     }
 
     private List<String> getRolesFromJWT(JWTClaimsSet claims) {
-        LOG.trace("Parameters: claims={}", claims);
+        LOG.trace("Parameters: {}", claims);
         List<String> roles = Collections.emptyList();
         try {
             List<String> rolesClaim = claims.getStringListClaim(ROLES_CLAIM);
@@ -125,9 +135,9 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
     }
 
     private String getSubject(String token) {
+        LOG.trace("Parameters: {}", token);
         String subject = null;
         try {
-            LOG.trace("Parameters: token={}", token);
             JWT jwt = JWTParser.parse(token);
             JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
             subject = claimsSet.getSubject();
@@ -141,11 +151,10 @@ public class NimbusJWTAuthenticationManager implements JWTAuthenticationManager 
     }
 
     private JWTClaimsSet verifyToken(String token) throws BadCredentialsException {
-        LOG.trace("Parameters: token={}", token);
+        LOG.trace("Parameters: {}", token);
         JWTClaimsSet claims = null;
         try {
             claims = processor.process(token, null);
-
             LOG.trace("Returning: {}", claims);
 
             return claims;

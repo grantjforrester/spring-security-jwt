@@ -16,6 +16,4 @@ public interface JWTAuthenticationManager extends AuthenticationManager {
      * @return a Spring security principal, or <code>null</code> if the JWT was not valid.
      */
     Optional<Object> getPrincipalFrom(String jwt) ;
-
-
 }

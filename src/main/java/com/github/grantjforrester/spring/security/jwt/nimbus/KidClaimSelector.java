@@ -1,4 +1,4 @@
-package com.github.grantjforrester.spring.security.jwt;
+package com.github.grantjforrester.spring.security.jwt.nimbus;
 
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.jwk.JWK;
@@ -14,22 +14,23 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Manages a collection of JWKs and provides methods for returning JWKs and Keys by the JWK keyId.
+ * Returns a key from a JWKS keyset identified by the 'kid' claim in the JTW header.
  *
  * See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517: JSON Web Key (JWK)</a>
  */
-public class JWKSetManager implements JWSKeySelector<SecurityContext> {
+public class KidClaimSelector implements JWSKeySelector<SecurityContext> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JWKSetManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KidClaimSelector.class);
+
     private final JWKSet keyset;
 
     /**
-     * Creates a new manager with an existing JWK set.
+     * Creates a new selector with an JWK set.
      * @param keyset the JWK set.
      * @throws NullPointerException if no JWK set given.
      */
-    public JWKSetManager(JWKSet keyset) {
-        LOG.trace("Parameters: keyset={}", keyset);
+    public KidClaimSelector(JWKSet keyset) {
+        LOG.trace("Parameters: {}", keyset);
         if (keyset == null) {
             throw new NullPointerException("keyset cannot be null");
         }
@@ -38,11 +39,12 @@ public class JWKSetManager implements JWSKeySelector<SecurityContext> {
     }
 
     /**
-     * Attempts to return all defined keys for the JWK in the set specified by the <code>kid</code> claim in the JWS header.
+     * Attempts to return a key for the JWK set specified by the <code>kid</code> claim in the JWS header.
      * If the <code>kid</code> is not present in the header, or no JWK was found then an empty list is returned.
      */
     @Override
     public List<? extends Key> selectJWSKeys(JWSHeader jwsHeader, SecurityContext securityContext) {
+        LOG.trace("Parameters: {}, {}", jwsHeader, securityContext);
         List<? extends Key> keys = Collections.emptyList();
         String keyId = jwsHeader.getKeyID();
         JWK key = getJWKByKid(keyId);
@@ -54,13 +56,8 @@ public class JWKSetManager implements JWSKeySelector<SecurityContext> {
         return keys;
     }
 
-    /**
-     * Returns a JWK from the JWK set with the given <code>kid</code>.
-     * @param kid the unique id of the key
-     * @return the JWK or null is no JWK found.
-     */
-    public JWK getJWKByKid(String kid) {
-        LOG.trace("Parameters: kid={}", kid);
+    JWK getJWKByKid(String kid) {
+        LOG.trace("Parameters: {}", kid);
         JWK jwk = keyset.getKeyByKeyId(kid);
         LOG.trace("Returning: {}", jwk);
 

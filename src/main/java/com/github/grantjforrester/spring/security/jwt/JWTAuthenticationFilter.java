@@ -22,11 +22,12 @@ import java.util.Optional;
 public class JWTAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+
     private JWTProvider jwtProvider;
     private JWTAuthenticationManager authenticationManager;
 
     public void setJwtProvider(JWTProvider jwtProvider) {
-        LOG.trace("Parameters: jwtProvider={}", jwtProvider);
+        LOG.trace("Parameters: {}", jwtProvider);
         this.jwtProvider = jwtProvider;
         LOG.trace("Returning: none");
     }
@@ -34,8 +35,10 @@ public class JWTAuthenticationFilter extends AbstractPreAuthenticatedProcessingF
 
     @Override
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        LOG.trace("Parameters: {}", authenticationManager);
         this.authenticationManager = (JWTAuthenticationManager) authenticationManager;
         super.setAuthenticationManager(authenticationManager);
+        LOG.trace("Returning: none");
     }
 
     /**
@@ -47,7 +50,7 @@ public class JWTAuthenticationFilter extends AbstractPreAuthenticatedProcessingF
      */
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        LOG.trace("Parameters: request={}");
+        LOG.trace("Parameters: {}", request);
         Object principal = null;
         Optional<String> jwt = jwtProvider.getJWTFromRequest(request);
         if (jwt.isPresent()) {
@@ -66,7 +69,7 @@ public class JWTAuthenticationFilter extends AbstractPreAuthenticatedProcessingF
      */
     @Override
     protected Object getPreAuthenticatedCredentials(HttpServletRequest request) {
-        LOG.trace("Parameters: request={}", request);
+        LOG.trace("Parameters: {}", request);
         String token = jwtProvider.getJWTFromRequest(request).orElse(null);
         LOG.trace("Returning: {}", token);
 

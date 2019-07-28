@@ -15,22 +15,24 @@ import java.util.Optional;
  *     HEADER : &lt;AUTHENTICATION_SCHEME&gt; &lt;TOKEN_STRING&gt;
  * </pre>
  * The authentication scheme is configurable. The default expected authentication scheme is
- * {@value #DEFAULT_UTHORIZATION_SCHEME}.
+ * {@value #DEFAULT_AUTHORIZATION_SCHEME}.
  */
 public class HeaderJWTProvider implements JWTProvider {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HeaderJWTProvider.class);
     public static final String DEFAULT_AUTHORIZATION_HEADER = "Authorization";
-    public static final String DEFAULT_UTHORIZATION_SCHEME = "Bearer";
+    public static final String DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
+
+    private static final Logger LOG = LoggerFactory.getLogger(HeaderJWTProvider.class);
+
     private final String headerName;
     private final String authScheme;
 
     /**
      * Create a HeaderJWTProvider that expects a JWT in a request header named {@value #DEFAULT_AUTHORIZATION_HEADER}.
-     * The authentication scheme of the header value is expected to be {@value #DEFAULT_UTHORIZATION_SCHEME}.
+     * The authentication scheme of the header value is expected to be {@value #DEFAULT_AUTHORIZATION_SCHEME}.
      */
     public HeaderJWTProvider() {
-        this(DEFAULT_AUTHORIZATION_HEADER, DEFAULT_UTHORIZATION_SCHEME);
+        this(DEFAULT_AUTHORIZATION_HEADER, DEFAULT_AUTHORIZATION_SCHEME);
     }
 
     /**
@@ -39,7 +41,7 @@ public class HeaderJWTProvider implements JWTProvider {
      * @param authScheme the expected authentication scheme.
      */
     public HeaderJWTProvider(String headerName, String authScheme) {
-        LOG.trace("Parameters: none");
+        LOG.trace("Parameters: {}, {}", headerName, authScheme);
         this.headerName = headerName;
         this.authScheme = authScheme;
         LOG.trace("Returning: none");
@@ -52,7 +54,7 @@ public class HeaderJWTProvider implements JWTProvider {
      */
     @Override
     public Optional<String> getJWTFromRequest(HttpServletRequest request) {
-        LOG.trace("Parameters: none");
+        LOG.trace("Parameters: {}", request);
         Optional<String> jwt = Optional.empty();
         String authorizationHeader = request.getHeader(headerName);
         if (authorizationHeader != null && authorizationHeader.startsWith(authScheme)) {
