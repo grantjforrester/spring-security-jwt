@@ -90,7 +90,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationFilter, BasicAuthenticationFilter.class)
             .authorizeRequests().anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(STATELESS)
-            .and().exceptionHandling().authenticationEntryPoint(new StatusCode401AuthenticationEntrypoint());
+            .and().exceptionHandling().authenticationEntryPoint(
+                new StatusCode401AuthenticationEntrypoint()
+            );
     }
 }
 ```
