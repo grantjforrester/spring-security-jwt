@@ -14,7 +14,7 @@ A JWT is valid if:
 - any "exp" claim has not elapsed
 - has the correct signature based on a provided key.
 
-## The Spring Authentication Context
+## The Spring Security Context
 
 On successful authentication the `JWTAuthenticationManager` builds a 
 [`PreAuthenticatedAuthenticationToken`](https://docs.spring.io/spring-security/site/docs/4.2.12.RELEASE/apidocs/org/springframework/security/web/authentication/preauth/PreAuthenticatedAuthenticationToken.html)
