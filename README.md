@@ -49,7 +49,7 @@ The key is built from a shared secret usually passed in as a configuration value
 ### From KeySet By Kid Claim
 
 Each JWT must specify a "kid" claim in the header.  This value is used to locate a key in the configured
-JWKS key set.   
+JWKS key set.  See class `FromKeySetByKidClaim`.
 
 ## Usage
 
