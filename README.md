@@ -12,20 +12,13 @@ A JWT is valid if:
 - it is well-formed
 - any "nbf" claim has elapsed
 - any "exp" claim has not elapsed
-- has a "kid" claim in its header
-- the key with the "kid" is present in the application's keyset
-- has the correct signature
+- has the correct signature based on a provided key.
 
-**Kids and Signature Checking**
-
-Each JWT must specify a "kid" claim in the header.  This value is used to locate a key in the configured
-JWKS key set.  The JWT's signature is then verified with the key.  
-
-**The Spring Authentication Context**
+## The Spring Authentication Context
 
 On successful authentication the `JWTAuthenticationManager` builds a 
 [`PreAuthenticatedAuthenticationToken`](https://docs.spring.io/spring-security/site/docs/4.2.12.RELEASE/apidocs/org/springframework/security/web/authentication/preauth/PreAuthenticatedAuthenticationToken.html)
-which is set in the current SecurityContext.
+which is set in the current Spring SecurityContext.
 
 The token is populated from the JWT as follows:
 
@@ -44,6 +37,19 @@ The token is populated from the JWT as follows:
 >    ...
 > }
 > ```
+
+## JWT Signature Checking
+
+To verify a JWT signature a key must be provided.  Two methods of providing a key are supported:
+
+### From Shared Secret
+
+The key is built from a shared secret usually passed in as a configuration value. See class `FromSharedSecret`.
+
+### From KeySet By Kid Claim
+
+Each JWT must specify a "kid" claim in the header.  This value is used to locate a key in the configured
+JWKS key set.   
 
 ## Usage
 

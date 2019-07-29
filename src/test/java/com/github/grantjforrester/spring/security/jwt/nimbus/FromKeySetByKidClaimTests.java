@@ -18,15 +18,15 @@ import static com.nimbusds.jose.jwk.JWKSet.load;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class KidClaimSelectorTests {
+public class FromKeySetByKidClaimTests {
 
-    private KidClaimSelector testee;
+    private FromKeySetByKidClaim testee;
 
     @BeforeEach
     public void setup() throws Exception {
         URL url = this.getClass().getResource("/testkeyset.jwks");
         File keySetFile = new File(url.toURI());
-        testee = new KidClaimSelector(load(keySetFile));
+        testee = new FromKeySetByKidClaim(load(keySetFile));
     }
 
     @Test

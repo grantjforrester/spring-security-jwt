@@ -45,12 +45,12 @@ class JWTSigner {
             JWSAlgorithm.PS256, JWSAlgorithm.PS384, JWSAlgorithm.PS512
     );
 
-    private final KidClaimSelector keyManager;
+    private final FromKeySetByKidClaim keyManager;
 
     /*
      * Create a JWTSigner that uses keys from the given key manager.
      */
-    JWTSigner(KidClaimSelector keyManager) {
+    JWTSigner(FromKeySetByKidClaim keyManager) {
         LOG.trace("Parameters: keyManager={}", keyManager);
         if (keyManager == null) {
             throw new NullPointerException("keyManager cannot be null");
@@ -115,7 +115,7 @@ class JWTSigner {
 
         URL url = JWTSigner.class.getResource("/testkeyset.jwks");
         File keySetFile = new File(url.toURI());
-        KidClaimSelector keysetManager = new KidClaimSelector(load(keySetFile));
+        FromKeySetByKidClaim keysetManager = new FromKeySetByKidClaim(load(keySetFile));
         JWTSigner signer = new JWTSigner(keysetManager);
         System.out.println("Keyset loaded");
 

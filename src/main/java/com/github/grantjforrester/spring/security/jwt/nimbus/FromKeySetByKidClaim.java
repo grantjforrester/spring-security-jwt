@@ -18,18 +18,18 @@ import java.util.List;
  *
  * See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517: JSON Web Key (JWK)</a>
  */
-public class KidClaimSelector implements JWSKeySelector<SecurityContext> {
+public class FromKeySetByKidClaim implements JWSKeySelector<SecurityContext> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KidClaimSelector.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FromKeySetByKidClaim.class);
 
     private final JWKSet keyset;
 
     /**
-     * Creates a new selector with an JWK set.
+     * Creates a new key selector with an JWK set.
      * @param keyset the JWK set.
      * @throws NullPointerException if no JWK set given.
      */
-    public KidClaimSelector(JWKSet keyset) {
+    public FromKeySetByKidClaim(JWKSet keyset) {
         LOG.trace("Parameters: {}", keyset);
         if (keyset == null) {
             throw new NullPointerException("keyset cannot be null");
@@ -39,6 +39,8 @@ public class KidClaimSelector implements JWSKeySelector<SecurityContext> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Attempts to return a key for the JWK set specified by the <code>kid</code> claim in the JWS header.
      * If the <code>kid</code> is not present in the header, or no JWK was found then an empty list is returned.
      */

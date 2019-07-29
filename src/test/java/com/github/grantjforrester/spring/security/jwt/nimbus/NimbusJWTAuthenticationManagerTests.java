@@ -31,8 +31,8 @@ public class NimbusJWTAuthenticationManagerTests {
     public void setup() throws Exception {
         URL url = this.getClass().getResource("/testkeyset.jwks");
         File keySetFile = new File(url.toURI());
-        KidClaimSelector keysetManager = new KidClaimSelector(load(keySetFile));
-        testee = new NimbusJWTAuthenticationManager(keysetManager);
+        FromKeySetByKidClaim keySelector = new FromKeySetByKidClaim(load(keySetFile));
+        testee = new NimbusJWTAuthenticationManager(keySelector);
     }
 
     @Test
