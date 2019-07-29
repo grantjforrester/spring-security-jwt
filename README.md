@@ -85,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     JWTAuthenticationManager jwtAuthenticationManager() {
-        KidClaimSelector keySelector = new KidClaimSelector(JWKSet.load(keystore.getInputStream()));
+        FromKeySetByKidClaim keySelector = new FromKeySetByKidClaim(JWKSet.load(keystore.getInputStream()));
         return new NimbusJWTAuthenticationManager(keySelector);
     }
 
