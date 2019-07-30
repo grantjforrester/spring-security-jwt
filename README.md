@@ -73,8 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     Filter authenticationFilter(JWTAuthenticationManager jwtAuthenticationManager) {
         JWTAuthenticationFilter filter = new JWTAuthenticationFilter();
-        filter.setTokenProvider(new HeaderJWTProvider("Authorization", "Bearer"));
-        filter.setAuthenticationManager(authenticationManager);
+        filter.setJwtProvider(new HeaderJWTProvider("Authorization", "Bearer"));
+        filter.setAuthenticationManager(jwtAuthenticationManager);
         filter.setAuthenticationDetailsSource(new WebAuthenticationDetailsSource());
         return filter;
     }
@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * up the SecurityContext.
      */
     @Bean
-    JWTAuthenticationManager jwtAuthenticationManager() {
+    JWTAuthenticationManager jwtAuthenticationManager() throws Exception {
         FromKeySetByKidClaim keySelector = new FromKeySetByKidClaim(JWKSet.load(keystore.getInputStream()));
         return new NimbusJWTAuthenticationManager(keySelector);
     }
